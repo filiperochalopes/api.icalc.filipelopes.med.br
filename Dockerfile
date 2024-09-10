@@ -1,11 +1,10 @@
 FROM node:20-alpine
 
 COPY . /app
-WORKDIR /app/src
+WORKDIR /app
 
 RUN yarn
-
-WORKDIR /app
+RUN yarn build
 
 RUN chmod +x start.sh
 

@@ -4,17 +4,17 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+datasource db {
+  provider = "sqlite"
+  url      = "file:dev.db"
+}
+
 generator client {
   provider = "prisma-client-js"
 }
 
 generator typegraphql {
   provider = "typegraphql-prisma"
-}
-
-datasource db {
-  provider = "sqlite"
-  url      = "file:dev.db"
 }
 
 model DrugPresentation {
@@ -33,6 +33,7 @@ model Drug {
   note               String?
   drugPresentationId Int
   StandardDilution   StandardDilution[]
+  Dosage             Dosage[]
 }
 
 model HealthcareInstitution {
@@ -41,11 +42,13 @@ model HealthcareInstitution {
   StandardDilution StandardDilution[]
 }
 
-model dosage {
+model Dosage {
   id         Int     @id @default(autoincrement())
   range      String
   note       String?
   references String?
+  drug       Drug    @relation(fields: [drugId], references: [id])
+  drugId     Int
 }
 
 model Solvent {
