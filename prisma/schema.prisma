@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator typegraphql {
+  provider = "typegraphql-prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:dev.db"
+}
+
+model DrugPresentation {
+  id   Int    @id @default(autoincrement())
+  name String
+  Drug Drug[]
+}
+
+model Drug {
+  id                 Int                @id @default(autoincrement())
+  substance          String
+  commercialName     String
+  presentation       DrugPresentation   @relation(fields: [drugPresentationId], references: [id])
+  dilution           String
+  volume             String?
+  note               String?
+  drugPresentationId Int
+  StandardDilution   StandardDilution[]
+}
+
+model HealthcareInstitution {
+  id               Int                @id @default(autoincrement())
+  name             String
+  StandardDilution StandardDilution[]
+}
+
+model dosage {
+  id         Int     @id @default(autoincrement())
+  range      String
+  note       String?
+  references String?
+}
+
+model Solvent {
+  id               Int                @id @default(autoincrement())
+  name             String
+  StandardDilution StandardDilution[]
+}
+
+model StandardDilution {
+  id                      Int                   @id @default(autoincrement())
+  name                    String
+  drug                    Drug                  @relation(fields: [drugId], references: [id])
+  solvent                 Solvent               @relation(fields: [solventId], references: [id])
+  solutionVolume          String
+  healthcareInstitution   HealthcareInstitution @relation(fields: [healthcareInstitutionId], references: [id])
+  drugId                  Int
+  solventId               Int
+  healthcareInstitutionId Int
+}

@@ -1,0 +1,21 @@
+{
+  "name": "icalc-api",
+  "version": "0.1.0",
+  "description": "simple intensive medical calculator api",
+  "main": "index.js",
+  "author": "Filipe Lopes",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon src/server.ts"
+  },
+  "devDependencies": {
+    "prisma": "^5.10.2",
+    "nodemon": "3.1.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.10.2",
+    "graphql": "^16.8.1",
+    "graphql-yoga": "^5.2.0"
+  }
+}
