@@ -63,6 +63,7 @@ model StandardDilution {
   drug                    Drug                  @relation(fields: [drugId], references: [id])
   solvent                 Solvent               @relation(fields: [solventId], references: [id])
   solutionVolume          String
+  soluteVolume            String                @default("1ml")
   healthcareInstitution   HealthcareInstitution @relation(fields: [healthcareInstitutionId], references: [id])
   drugId                  Int
   solventId               Int
