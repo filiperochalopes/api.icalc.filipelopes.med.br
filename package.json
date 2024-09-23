@@ -8,7 +8,8 @@
     "dev": "cross-env NODE_ENV=development ts-node-dev --exit-child --respawn src/server.ts",
     "start": "node dist/server.js",  
     "build": "prisma generate && tsc",  
-    "prisma:generate": "prisma generate"
+    "prisma:generate": "prisma generate",
+    "data-migration:update-drug-volumes": "ts-node ./prisma/migrations/20240923114005_unique_volume_per_table/data-migration.ts"
   },
   "devDependencies": {
     "@types/node": "18.16.16",

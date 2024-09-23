@@ -28,12 +28,19 @@ model Drug {
   substance          String
   commercialName     String
   presentation       DrugPresentation   @relation(fields: [drugPresentationId], references: [id])
-  dilution           String
+  volumes            DrugVolume[]
   volume             String?
+  dilution           String
   note               String?
   drugPresentationId Int
   StandardDilution   StandardDilution[]
   Dosage             Dosage[]
+}
+
+model DrugVolume {
+  id                 Int    @id @default(autoincrement())
+  value              String @unique
+  drugs              Drug[]
 }
 
 model HealthcareInstitution {
