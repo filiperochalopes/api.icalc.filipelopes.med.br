@@ -12,7 +12,7 @@ const storePage = `<!doctype html>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#0e385d" />
-    <title>iCalc — Baixe o aplicativo</title>
+    <title>DrCalc — Baixe o aplicativo</title>
     <style>
       :root { color-scheme: light; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
       * { box-sizing: border-box; }
@@ -33,10 +33,10 @@ const storePage = `<!doctype html>
   <body>
     <main>
       <div class="mark" aria-hidden="true">⚕</div>
-      <h1>iCalc</h1>
-      <p>O iCalc agora está disponível como aplicativo. Baixe para ter as calculadoras sempre à mão.</p>
+      <h1>DrCalc</h1>
+      <p>O DrCalc agora está disponível como aplicativo. Baixe para ter as calculadoras sempre à mão.</p>
       <div class="stores">
-        <a class="store" href="https://link.orango.io/blO19" target="_blank" rel="noopener noreferrer" aria-label="Baixar iCalc no Google Play">
+        <a class="store" href="https://link.orango.io/blO19" target="_blank" rel="noopener noreferrer" aria-label="Baixar DrCalc no Google Play">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#42d38b" d="M3 2.8v18.4L13.2 12z"/><path fill="#5ca8ff" d="m13.2 12 3.1-3.1L5.3 2.7z"/><path fill="#ffd15c" d="m13.2 12 3.1 3.1-11 6.2z"/><path fill="#ff6b6b" d="M16.3 8.9 19.8 11a1.2 1.2 0 0 1 0 2l-3.5 2.1-2.3-3.1z"/></svg>
           <span><small>DISPONÍVEL NO</small><strong>Google Play</strong></span>
         </a>
@@ -45,7 +45,7 @@ const storePage = `<!doctype html>
           <span><small>EM BREVE NA</small><strong>App Store</strong></span>
         </span>
       </div>
-      <footer>API iCalc</footer>
+      <footer>API DrCalc</footer>
     </main>
   </body>
 </html>`;

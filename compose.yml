@@ -1,5 +1,5 @@
 services:
-  icalc-api:
+  drcalc-api:
     build:
       context: .
       target: runner
@@ -7,12 +7,12 @@ services:
     ports:
       - "${APP_PORT}:4000"
     environment:
-      DATABASE_URL: mysql://${DB_USER}:${DB_PASS}@icalc-api-db:3306/${DB_NAME}
+      DATABASE_URL: mysql://${DB_USER}:${DB_PASS}@drcalc-api-db:3306/${DB_NAME}
     networks:
       - internal
       - data
     depends_on:
-      icalc-api-db:
+      drcalc-api-db:
         condition: service_healthy
     logging:
       driver: "json-file"
@@ -26,7 +26,7 @@ services:
       retries: 3
       start_period: 30s
 
-  icalc-api-db:
+  drcalc-api-db:
     image: mariadb:11.4
     restart: unless-stopped
     environment:

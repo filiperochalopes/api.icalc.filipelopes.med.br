@@ -1,7 +1,7 @@
 {
-  "name": "icalc-api",
+  "name": "drcalc-api",
   "version": "0.1.0",
-  "description": "simple intensive medical calculator api",
+  "description": "DrCalc medical calculator API",
   "author": "Filipe Lopes",
   "license": "MIT",
   "scripts": {
