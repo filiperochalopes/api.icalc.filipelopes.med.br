@@ -7,4 +7,36 @@ services:
     ports:
       - ${PRISMA_STUDIO_PORT}:5555
       - ${APP_PORT}:4000
+    environment:
+      DATABASE_URL: mysql://${DB_USER}:${DB_PASS}@db-icalc:3306/${DB_NAME}
     restart: always
+    networks:
+      - icalc-network
+    depends_on:
+      - db-icalc
+  db-icalc:
+    image: mariadb:latest
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
+      MYSQL_DATABASE: ${DB_NAME}
+    volumes:
+      - ./data:/var/lib/mysql
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: "0.5"
+    networks:
+      - appsmith-network
+      - cloudbeaver
+      - icalc-network
+
+networks:
+  appsmith-network:
+    external: true
+  cloudbeaver:
+    external: true
+  icalc-network:
+    driver: bridge
+
