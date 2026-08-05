@@ -1,0 +1,59 @@
+services:
+  icalc-api:
+    build:
+      context: .
+      target: development
+    command: sh -c "yarn prisma:generate && yarn dev"
+    volumes:
+      - .:/app
+      - icalc-api-node-modules:/app/node_modules
+    ports:
+      - "${APP_PORT:-8086}:4000"
+    environment:
+      DATABASE_URL: mysql://${DB_USER:-root}:${DB_PASS:-root}@icalc-api-db:3306/${DB_NAME:-icalc}
+    depends_on:
+      icalc-api-db:
+        condition: service_healthy
+    networks:
+      - icalc-dev
+
+  icalc-api-db:
+    image: mariadb:11.4
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS:-root}
+      MYSQL_DATABASE: ${DB_NAME:-icalc}
+    volumes:
+      - icalc-api-db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb-admin ping -h localhost -uroot -p\"$$MYSQL_ROOT_PASSWORD\" --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - icalc-dev
+
+  icalc-api-studio:
+    build:
+      context: .
+      target: development
+    command: sh -c "yarn prisma:generate && yarn prisma studio --browser none"
+    volumes:
+      - .:/app
+      - icalc-api-node-modules:/app/node_modules
+    ports:
+      - "${PRISMA_STUDIO_PORT:-5555}:5555"
+    environment:
+      DATABASE_URL: mysql://${DB_USER:-root}:${DB_PASS:-root}@icalc-api-db:3306/${DB_NAME:-icalc}
+    depends_on:
+      icalc-api-db:
+        condition: service_healthy
+    networks:
+      - icalc-dev
+
+volumes:
+  icalc-api-node-modules:
+  icalc-api-db-data:
+
+networks:
+  icalc-dev:
+    driver: bridge

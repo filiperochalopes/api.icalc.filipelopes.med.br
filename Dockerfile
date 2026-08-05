@@ -1,11 +1,37 @@
-FROM node:20-alpine
+FROM node:20.19.6-alpine3.22 AS base
 
-COPY . /app
 WORKDIR /app
+RUN apk add --no-cache openssl
 
-RUN yarn
+FROM base AS dependencies
+
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
+
+FROM dependencies AS builder
+
+COPY . .
 RUN yarn build
 
-RUN chmod +x start.sh
+FROM base AS production-dependencies
 
-CMD sh ./start.sh
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile --production=true
+
+FROM base AS runner
+
+ENV NODE_ENV=production
+
+COPY --from=production-dependencies /app/node_modules ./node_modules
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /app/dist ./dist
+
+EXPOSE 4000
+
+CMD ["yarn", "start"]
+
+FROM dependencies AS development
+
+COPY . .
+
+CMD ["yarn", "dev"]
