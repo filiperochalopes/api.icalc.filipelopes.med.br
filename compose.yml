@@ -9,7 +9,7 @@ services:
     environment:
       DATABASE_URL: mysql://${DB_USER}:${DB_PASS}@drcalc-api-db:3306/${DB_NAME}
     networks:
-      - internal
+      - proxy
       - data
     depends_on:
       drcalc-api-db:
@@ -54,7 +54,7 @@ services:
       start_period: 30s
 
 networks:
-  internal:
+  proxy:
     external: true
   data:
     external: true
