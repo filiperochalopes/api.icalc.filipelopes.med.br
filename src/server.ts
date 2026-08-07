@@ -1,5 +1,6 @@
 import "core-js/features/reflect";
 
+import { createReadStream } from "node:fs";
 import { createServer } from "node:http";
 import { PrismaClient } from "@prisma/client";
 import { buildSchema } from "type-graphql";
@@ -18,7 +19,7 @@ const storePage = `<!doctype html>
       * { box-sizing: border-box; }
       body { margin: 0; min-height: 100vh; display: grid; place-items: center; overflow: hidden; color: #0e385d; background: radial-gradient(circle at 18% 15%, #eaf4ff 0, transparent 31rem), radial-gradient(circle at 90% 85%, #fff0b7 0, transparent 28rem), #f8fafc; }
       main { width: min(92vw, 580px); padding: 44px 30px 38px; text-align: center; background: rgba(255,255,255,.78); border: 1px solid rgba(255,255,255,.9); border-radius: 32px; box-shadow: 0 24px 80px rgba(14,56,93,.14); backdrop-filter: blur(12px); }
-      .mark { width: 90px; height: 90px; margin: 0 auto 22px; display: grid; place-items: center; border-radius: 27px; color: #fff; background: linear-gradient(145deg, #1e5c8f, #0e385d); box-shadow: 0 12px 22px rgba(14,56,93,.24); font-size: 53px; font-family: Georgia, serif; font-weight: bold; }
+      .mark { width: 96px; height: 96px; margin: 0 auto 22px; display: block; border-radius: 28px; box-shadow: 0 12px 22px rgba(14,56,93,.18); }
       h1 { margin: 0; font-size: clamp(2rem, 6vw, 2.7rem); letter-spacing: -.055em; }
       p { max-width: 405px; margin: 14px auto 30px; color: #597089; font-size: 1.08rem; line-height: 1.55; }
       .stores { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; }
@@ -32,7 +33,7 @@ const storePage = `<!doctype html>
   </head>
   <body>
     <main>
-      <div class="mark" aria-hidden="true">⚕</div>
+      <img class="mark" src="/drcalc-icon.png" alt="Ícone do DrCalc" />
       <h1>DrCalc</h1>
       <p>O DrCalc agora está disponível como aplicativo. Baixe para ter as calculadoras sempre à mão.</p>
       <div class="stores">
@@ -72,6 +73,15 @@ const server = createServer((request, response) => {
   if (request.url === "/" || request.url?.startsWith("/?")) {
     response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
     response.end(storePage);
+    return;
+  }
+
+  if (request.url === "/drcalc-icon.png") {
+    response.writeHead(200, {
+      "cache-control": "public, max-age=604800, immutable",
+      "content-type": "image/png",
+    });
+    createReadStream("public/drcalc-icon.png").pipe(response);
     return;
   }
 
