@@ -24,7 +24,9 @@ ENV NODE_ENV=production
 
 COPY --from=production-dependencies /app/node_modules ./node_modules
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /app/node_modules/@generated ./node_modules/@generated
 COPY --from=builder /app/dist ./dist
+COPY package.json ./
 
 EXPOSE 4000
 
